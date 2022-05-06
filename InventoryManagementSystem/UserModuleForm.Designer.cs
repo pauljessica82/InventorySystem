@@ -31,6 +31,7 @@ namespace InventoryManagementSystem
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserModuleForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxClose = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -43,7 +44,8 @@ namespace InventoryManagementSystem
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.pictureBoxClose = new System.Windows.Forms.PictureBox();
+            this.txtRepass = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
             this.SuspendLayout();
@@ -56,8 +58,19 @@ namespace InventoryManagementSystem
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(632, 52);
+            this.panel1.Size = new System.Drawing.Size(676, 52);
             this.panel1.TabIndex = 0;
+            // 
+            // pictureBoxClose
+            // 
+            this.pictureBoxClose.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxClose.Image")));
+            this.pictureBoxClose.Location = new System.Drawing.Point(594, 9);
+            this.pictureBoxClose.Name = "pictureBoxClose";
+            this.pictureBoxClose.Size = new System.Drawing.Size(26, 28);
+            this.pictureBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxClose.TabIndex = 13;
+            this.pictureBoxClose.TabStop = false;
+            this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
             // 
             // label1
             // 
@@ -74,7 +87,7 @@ namespace InventoryManagementSystem
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(51, 103);
+            this.label2.Location = new System.Drawing.Point(79, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 20);
             this.label2.TabIndex = 1;
@@ -82,23 +95,23 @@ namespace InventoryManagementSystem
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(163, 103);
+            this.txtUserName.Location = new System.Drawing.Point(207, 90);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(381, 22);
-            this.txtUserName.TabIndex = 2;
+            this.txtUserName.TabIndex = 1;
             // 
             // txtFullName
             // 
-            this.txtFullName.Location = new System.Drawing.Point(163, 153);
+            this.txtFullName.Location = new System.Drawing.Point(207, 142);
             this.txtFullName.Name = "txtFullName";
             this.txtFullName.Size = new System.Drawing.Size(381, 22);
-            this.txtFullName.TabIndex = 4;
+            this.txtFullName.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(51, 208);
+            this.label3.Location = new System.Drawing.Point(88, 195);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 20);
             this.label3.TabIndex = 3;
@@ -106,16 +119,16 @@ namespace InventoryManagementSystem
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(163, 208);
+            this.txtPass.Location = new System.Drawing.Point(207, 195);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(381, 22);
-            this.txtPass.TabIndex = 6;
+            this.txtPass.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(42, 155);
+            this.label4.Location = new System.Drawing.Point(79, 142);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(99, 20);
             this.label4.TabIndex = 5;
@@ -123,20 +136,21 @@ namespace InventoryManagementSystem
             // 
             // txtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(163, 265);
+            this.txtPhone.Location = new System.Drawing.Point(207, 302);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(381, 22);
-            this.txtPhone.TabIndex = 8;
+            this.txtPhone.TabIndex = 5;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(51, 269);
+            this.label5.Location = new System.Drawing.Point(115, 302);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 20);
             this.label5.TabIndex = 7;
             this.label5.Text = "Phone:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // btnSave
             // 
@@ -145,10 +159,10 @@ namespace InventoryManagementSystem
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(216, 326);
+            this.btnSave.Location = new System.Drawing.Point(207, 361);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(109, 50);
-            this.btnSave.TabIndex = 9;
+            this.btnSave.Size = new System.Drawing.Size(107, 40);
+            this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -160,10 +174,10 @@ namespace InventoryManagementSystem
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.White;
-            this.btnClear.Location = new System.Drawing.Point(441, 326);
+            this.btnClear.Location = new System.Drawing.Point(432, 361);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(104, 50);
-            this.btnClear.TabIndex = 11;
+            this.btnClear.Size = new System.Drawing.Size(102, 40);
+            this.btnClear.TabIndex = 8;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -175,30 +189,38 @@ namespace InventoryManagementSystem
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(331, 326);
+            this.btnUpdate.Location = new System.Drawing.Point(322, 361);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(104, 50);
-            this.btnUpdate.TabIndex = 12;
+            this.btnUpdate.Size = new System.Drawing.Size(102, 40);
+            this.btnUpdate.TabIndex = 7;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // pictureBoxClose
+            // txtRepass
             // 
-            this.pictureBoxClose.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxClose.Image")));
-            this.pictureBoxClose.Location = new System.Drawing.Point(594, 9);
-            this.pictureBoxClose.Name = "pictureBoxClose";
-            this.pictureBoxClose.Size = new System.Drawing.Size(26, 28);
-            this.pictureBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxClose.TabIndex = 13;
-            this.pictureBoxClose.TabStop = false;
-            this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
+            this.txtRepass.Location = new System.Drawing.Point(207, 248);
+            this.txtRepass.Name = "txtRepass";
+            this.txtRepass.Size = new System.Drawing.Size(381, 22);
+            this.txtRepass.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(16, 248);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(162, 20);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Re-Type Password:";
             // 
             // UserModuleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 420);
+            this.ClientSize = new System.Drawing.Size(676, 430);
+            this.Controls.Add(this.txtRepass);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnSave);
@@ -228,16 +250,18 @@ namespace InventoryManagementSystem
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtUserName;
-        private System.Windows.Forms.TextBox txtFullName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBoxClose;
         public System.Windows.Forms.Button btnSave;
         public System.Windows.Forms.Button btnClear;
         public System.Windows.Forms.Button btnUpdate;
+        public System.Windows.Forms.TextBox txtUserName;
+        public System.Windows.Forms.TextBox txtFullName;
+        public System.Windows.Forms.TextBox txtPass;
+        public System.Windows.Forms.TextBox txtPhone;
+        public System.Windows.Forms.TextBox txtRepass;
+        private System.Windows.Forms.Label label6;
     }
 }
