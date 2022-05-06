@@ -19,10 +19,10 @@ namespace InventoryManagementSystem
         public UserForm()
         {
             InitializeComponent();
-            LoadUser();
+            LoadUsers();
         }
 
-        public void LoadUser()
+        public void LoadUsers()
         {
             int i = 0;
             dgvUser.Rows.Clear();
@@ -51,6 +51,39 @@ namespace InventoryManagementSystem
             userModule.btnSave.Enabled = true;
             userModule.btnUpdate.Enabled = false;
             userModule.ShowDialog();
+            LoadUsers();
+        }
+
+        private void dgvUser_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string colName = dgvUser.Columns[e.ColumnIndex].Name;
+            if (colName == "Edit")
+            {
+                UserModuleForm userModule = new UserModuleForm();
+                userModule.txtUserName.Text = dgvUser.Rows[e.RowIndex].Cells[1].Value.ToString();
+                userModule.txtFullName.Text = dgvUser.Rows[e.RowIndex].Cells[2].Value.ToString();
+                userModule.txtPass.Text = dgvUser.Rows[e.RowIndex].Cells[3].Value.ToString();
+                userModule.txtPhone.Text = dgvUser.Rows[e.RowIndex].Cells[4].Value.ToString();
+
+                userModule.btnSave.Enabled = false;
+                userModule.txtUserName.Enabled = false;
+                userModule.btnUpdate.Enabled = true;
+                userModule.ShowDialog(); 
+            }
+
+            else if (colName == "Delete")
+            {
+                if (MessageBox.Show("Are You Sure You Want to DELETE This User?", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
+                {
+                    con.Open();
+                    cm = new SqlCommand("DELETE FROM tbUser WHERE username LIKE '" + dgvUser.Rows[e.RowIndex].Cells[1].Value.ToString() + "' ", con);
+                    cm.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("Record has been successfully deleted!");
+                }
+            }
+
+            LoadUsers();
         }
     }
 }
