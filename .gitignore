@@ -1,0 +1,9 @@
+*db
+*InventoryManagementSystem/obj
+*InventoryManagementSystem/Debug
+*InventoryManagementSystem/Release
+*.sqlite
+*.mdf
+
+
+
