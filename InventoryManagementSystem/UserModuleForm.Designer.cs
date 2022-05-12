@@ -237,6 +237,7 @@ namespace InventoryManagementSystem
             this.Name = "UserModuleForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserModuleForm";
+            this.Load += new System.EventHandler(this.UserModuleForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
