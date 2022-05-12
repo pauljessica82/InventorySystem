@@ -184,6 +184,7 @@ namespace InventoryManagementSystem
             this.btnCategory.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnCategory.TabIndex = 12;
             this.btnCategory.TabStop = false;
+            this.btnCategory.Click += new System.EventHandler(this.btnCategory_Click);
             // 
             // btnCustomers
             // 
@@ -250,6 +251,7 @@ namespace InventoryManagementSystem
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -12,16 +12,21 @@ using System.Data.SqlClient;
 
 namespace InventoryManagementSystem
 {
-    public partial class CustomerModuleForm : Form
+    public partial class CategoryModuleForm : Form
     {
         SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\paulj\Documents\dbIMS.mdf;Integrated Security=True;Connect Timeout=30");
         SqlCommand cm = new SqlCommand();
-        public CustomerModuleForm()
+        public CategoryModuleForm()
         {
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void lblCld_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CategoryModuleForm_Load(object sender, EventArgs e)
         {
 
         }
@@ -31,15 +36,14 @@ namespace InventoryManagementSystem
 
             try
             {
-                if (MessageBox.Show("Save this customer?", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                if (MessageBox.Show("Save this Category?", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
                 {
-                    cm = new SqlCommand("INSERT INTO tbCustomer(cname, cphone)VALUES(@cname, @cphone)", con);
-                    cm.Parameters.AddWithValue("@cname", txtCName.Text);
-                    cm.Parameters.AddWithValue("@cphone", txtCPhone.Text);
+                    cm = new SqlCommand("INSERT INTO tbCategory(catname)VALUES(@catname)", con);
+                    cm.Parameters.AddWithValue("@catname", txtCatName.Text);
                     con.Open();
                     cm.ExecuteNonQuery();
                     con.Close();
-                    MessageBox.Show("Customer has been successfully saved.");
+                    MessageBox.Show("Category has been successfully saved.");
                     Clear();
                 }
             }
@@ -49,22 +53,17 @@ namespace InventoryManagementSystem
                 MessageBox.Show(ex.Message);
             }
         }
+
         public void Clear()
         {
-            txtCName.Clear();
-            txtCPhone.Clear();
+            txtCatName.Clear();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             Clear();
             btnSave.Enabled = true;
-            btnUpdate.Enabled = false;
-        }
-
-        private void pictureBoxClose_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
+            btnUpdate.Enabled = false; 
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -72,15 +71,14 @@ namespace InventoryManagementSystem
             try
             {
 
-                if (MessageBox.Show("Update this customer?", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                if (MessageBox.Show("Update this Category?", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
                 {
-                    cm = new SqlCommand("UPDATE tbCustomer SET cname=@cname, cphone=@cphone WHERE cid LIKE '" + lblCld.Text + "' ", con);
-                    cm.Parameters.AddWithValue("@cname", txtCName.Text);
-                    cm.Parameters.AddWithValue("@cphone", txtCPhone.Text);
+                    cm = new SqlCommand("UPDATE tbCategory SET catname=@catname WHERE catid LIKE '" + lblCatID.Text + "' ", con);
+                    cm.Parameters.AddWithValue("@catname", txtCatName.Text);
                     con.Open();
                     cm.ExecuteNonQuery();
                     con.Close();
-                    MessageBox.Show("Customer has been updated!");
+                    MessageBox.Show("Category has been updated!");
                     this.Dispose();
                 }
             }
@@ -91,9 +89,9 @@ namespace InventoryManagementSystem
             }
         }
 
-        private void CustomerModuleForm_Load(object sender, EventArgs e)
+        private void pictureBoxClose_Click(object sender, EventArgs e)
         {
-
+            this.Dispose();
         }
     }
 }
