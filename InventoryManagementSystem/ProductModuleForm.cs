@@ -98,5 +98,32 @@ namespace InventoryManagementSystem
             btnSave.Enabled = true;
             btnUpdate.Enabled = false;
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Update this Product?", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                {
+                    cm = new SqlCommand("UPDATE tbProduct SET pname=@pname, pqty=@pqty, pprice=@pprice, pdescription=@pdescription, pcategory=@pcategory WHERE pid LIKE '" + lblProdID.Text + "' ", con);
+
+                    cm.Parameters.AddWithValue("@pname", txtProdName.Text);
+                    cm.Parameters.AddWithValue("@pqty", Convert.ToInt16(txtPqty.Text));
+                    cm.Parameters.AddWithValue("@pprice", Convert.ToInt16(txtPrice.Text));
+                    cm.Parameters.AddWithValue("@pdescription", txtPdescription.Text);
+                    cm.Parameters.AddWithValue("@pcategory", comboCty.Text);
+                    con.Open();
+                    cm.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("Product has been updated!");
+                    this.Dispose();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

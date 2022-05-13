@@ -46,6 +46,7 @@ namespace InventoryManagementSystem
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboCty = new System.Windows.Forms.ComboBox();
+            this.lblProdID = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
             this.SuspendLayout();
@@ -96,6 +97,7 @@ namespace InventoryManagementSystem
             this.btnUpdate.TabIndex = 24;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnClear
             // 
@@ -216,11 +218,22 @@ namespace InventoryManagementSystem
             this.comboCty.TabIndex = 28;
             this.comboCty.SelectedIndexChanged += new System.EventHandler(this.comboCty_SelectedIndexChanged);
             // 
+            // lblProdID
+            // 
+            this.lblProdID.AutoSize = true;
+            this.lblProdID.Location = new System.Drawing.Point(14, 362);
+            this.lblProdID.Name = "lblProdID";
+            this.lblProdID.Size = new System.Drawing.Size(88, 18);
+            this.lblProdID.TabIndex = 37;
+            this.lblProdID.Text = "Product ID";
+            this.lblProdID.Visible = false;
+            // 
             // ProductModuleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 394);
+            this.Controls.Add(this.lblProdID);
             this.Controls.Add(this.comboCty);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
@@ -267,5 +280,6 @@ namespace InventoryManagementSystem
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.ComboBox comboCty;
+        public System.Windows.Forms.Label lblProdID;
     }
 }

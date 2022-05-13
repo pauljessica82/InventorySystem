@@ -139,6 +139,7 @@ namespace InventoryManagementSystem
             this.label5.Size = new System.Drawing.Size(63, 20);
             this.label5.TabIndex = 25;
             this.label5.Text = "Phone:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // txtCName
             // 
@@ -167,6 +168,7 @@ namespace InventoryManagementSystem
             this.lblCld.TabIndex = 27;
             this.lblCld.Text = "Customer ID";
             this.lblCld.Visible = false;
+            this.lblCld.Click += new System.EventHandler(this.lblCld_Click);
             // 
             // CustomerModuleForm
             // 
