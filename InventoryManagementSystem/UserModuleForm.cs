@@ -106,6 +106,11 @@ namespace InventoryManagementSystem
         {
 
         }
+
+        private void UserModuleForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }
