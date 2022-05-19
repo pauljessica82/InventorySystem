@@ -25,6 +25,8 @@ namespace InventoryManagementSystem
         private void btnAdd_Click(object sender, EventArgs e)
         {
             OrderModuleForm ordmoduleForm = new OrderModuleForm();
+            ordmoduleForm.btnInsert.Enabled = true;
+            ordmoduleForm.btnUpdate.Enabled = false; 
             ordmoduleForm.ShowDialog();
         }
     }

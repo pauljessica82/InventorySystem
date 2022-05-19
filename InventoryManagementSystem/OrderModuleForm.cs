@@ -75,10 +75,7 @@ namespace InventoryManagementSystem
 
         }
 
-        private void dgvCustomer_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
 
         private void txtSearchCust_TextChanged(object sender, EventArgs e)
         {
@@ -95,9 +92,98 @@ namespace InventoryManagementSystem
 
         }
 
-        private void dgvProduct_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        int qty = 0;
+
+        private void label13_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt16(UPQty.Value) > qty)
+            {
+                MessageBox.Show("Instock quantity is not enough!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UPQty.Value = UPQty.Value - 1; 
+                return;
+            }
+            int total = Convert.ToInt16(txtPrice.Text) * Convert.ToInt16(UPQty.Value);
+            txtTotal.Text = total.ToString();
+        }
+
+        private void dgvCustomer_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txtCid.Text = dgvCustomer.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtCname.Text = dgvCustomer.Rows[e.RowIndex].Cells[2].Value.ToString();
+        }
+
+        private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txtProdId.Text = dgvProduct.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtProdName.Text = dgvProduct.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtPrice.Text = dgvProduct.Rows[e.RowIndex].Cells[3].Value.ToString();
+            qty = Convert.ToInt16(dgvProduct.Rows[e.RowIndex].Cells[3].Value.ToString());
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtCid.Text == "")
+                {
+                    MessageBox.Show("Please Select Customer!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (txtProdId.Text == "")
+                {
+                    MessageBox.Show("Please Select Product!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                    if (MessageBox.Show("Save this user?", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                {
+                    cm = new SqlCommand("INSERT INTO tbOrder(odate,pid,cid,qty,price,total)VALUES(@odate,@pid,@cid,@qty,@price,@total)", con);
+                    cm.Parameters.AddWithValue("@odate", dtOrder.Value);
+                    cm.Parameters.AddWithValue("@pid", Convert.ToInt16(txtProdId.Text));
+                    cm.Parameters.AddWithValue("@cid", Convert.ToInt16(txtCid.Text));
+                    cm.Parameters.AddWithValue("@qty", Convert.ToInt16(UPQty.Value));
+                    cm.Parameters.AddWithValue("@price", txtPrice.Text);
+                    cm.Parameters.AddWithValue("@total", txtTotal.Text);
+                    con.Open();
+                    cm.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("User has been successfully saved.");
+                    Clear();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void Clear()
+        {
+            txtCid.Clear();
+            txtCname.Clear();
+
+            txtProdId.Clear();
+            txtProdName.Clear();
+
+            txtPrice.Clear();
+            UPQty.Value = 0;
+            txtTotal.Clear();
+            dtOrder.Value = DateTime.Now;
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            Clear();
+            btnInsert.Enabled = true;
+            btnUpdate.Enabled = false; 
         }
     }
 }
