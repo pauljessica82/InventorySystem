@@ -7,27 +7,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace InventoryManagementSystem
 {
     public partial class OrderForm : Form
     {
+        SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\paulj\Documents\dbIMS.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlCommand cm = new SqlCommand();
+        SqlDataReader dr; 
+
+
         public OrderForm()
         {
             InitializeComponent();
+            LoadOrder();
         }
 
+        public void LoadOrder()
+        {
+            int i = 0;
+            dgvOrder.Rows.Clear();
+            cm = new SqlCommand("SELECT orderid, odate, O.pid, P.pname, O.cid, C.cname, qty, price, total  FROM tbOrder AS O JOIN tbCustomer AS C ON O.cid=C.cid JOIN tbProduct AS P ON O.pid=P.pid WHERE CONCAT (orderid, odate, O.pid, P.pname, O.cid, C.cname, qty, price) LIKE '%" + txtOSearch.Text + "%'", con);
+            con.Open();
+            dr = cm.ExecuteReader();
+
+            while (dr.Read())
+            {
+                i++;
+                dgvOrder.Rows.Add(i, dr[0].ToString(), Convert.ToDateTime(dr[1].ToString()).ToString("dd/MM/yyyy"), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString());
+            }
+            dr.Close();
+            con.Close();
+
+        }
         private void dgvUser_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            string colName = dgvOrder.Columns[e.ColumnIndex].Name;
+          
+            if (colName == "Delete")
+            {
+                if (MessageBox.Show("Are You Sure You Want to DELETE This Order?", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                {
+                    con.Open();
+                    cm = new SqlCommand("DELETE FROM tbOrder WHERE orderid LIKE '" + dgvOrder.Rows[e.RowIndex].Cells[1].Value.ToString() + "' ", con);
+                    cm.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("Record has been successfully deleted!");
 
+                    cm = new SqlCommand("UPDATE tbProduct SET pqty=(pqty+@pqty) WHERE pid LIKE '" + dgvOrder.Rows[e.RowIndex].Cells[3].Value.ToString() + "' ", con);
+                    cm.Parameters.AddWithValue("@pqty", Convert.ToInt16(dgvOrder.Rows[e.RowIndex].Cells[5].Value.ToString()));
+                    con.Open();
+                    cm.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            LoadOrder();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             OrderModuleForm ordmoduleForm = new OrderModuleForm();
-            ordmoduleForm.btnInsert.Enabled = true;
-            ordmoduleForm.btnUpdate.Enabled = false; 
             ordmoduleForm.ShowDialog();
+            LoadOrder();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtOSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadOrder();
         }
     }
 }

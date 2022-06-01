@@ -16,6 +16,7 @@ namespace InventoryManagementSystem
         SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\paulj\Documents\dbIMS.mdf;Integrated Security=True;Connect Timeout=30");
         SqlCommand cm = new SqlCommand();
         SqlDataReader dr;
+        int qty = 0;
         public OrderModuleForm()
         {
             InitializeComponent();
@@ -92,7 +93,7 @@ namespace InventoryManagementSystem
 
         }
 
-        int qty = 0;
+     
 
         private void label13_Click(object sender, EventArgs e)
         {
@@ -101,14 +102,19 @@ namespace InventoryManagementSystem
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            GetQty();
             if (Convert.ToInt16(UPQty.Value) > qty)
             {
                 MessageBox.Show("Instock quantity is not enough!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 UPQty.Value = UPQty.Value - 1; 
                 return;
             }
-            int total = Convert.ToInt16(txtPrice.Text) * Convert.ToInt16(UPQty.Value);
-            txtTotal.Text = total.ToString();
+            if(Convert.ToInt16(UPQty.Value) > 0)
+            {
+                int total = Convert.ToInt16(txtPrice.Text) * Convert.ToInt16(UPQty.Value);
+                txtTotal.Text = total.ToString();
+            }
+
         }
 
         private void dgvCustomer_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -121,8 +127,7 @@ namespace InventoryManagementSystem
         {
             txtProdId.Text = dgvProduct.Rows[e.RowIndex].Cells[1].Value.ToString();
             txtProdName.Text = dgvProduct.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtPrice.Text = dgvProduct.Rows[e.RowIndex].Cells[3].Value.ToString();
-            qty = Convert.ToInt16(dgvProduct.Rows[e.RowIndex].Cells[3].Value.ToString());
+            txtPrice.Text = dgvProduct.Rows[e.RowIndex].Cells[4].Value.ToString();
         }
 
         private void btnInsert_Click(object sender, EventArgs e)
@@ -141,20 +146,27 @@ namespace InventoryManagementSystem
                     return;
                 }
 
-                    if (MessageBox.Show("Save this user?", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
+                    if (MessageBox.Show("Are You Sure You Want to Insert this Order?", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) ;
                 {
                     cm = new SqlCommand("INSERT INTO tbOrder(odate,pid,cid,qty,price,total)VALUES(@odate,@pid,@cid,@qty,@price,@total)", con);
                     cm.Parameters.AddWithValue("@odate", dtOrder.Value);
-                    cm.Parameters.AddWithValue("@pid", Convert.ToInt16(txtProdId.Text));
-                    cm.Parameters.AddWithValue("@cid", Convert.ToInt16(txtCid.Text));
-                    cm.Parameters.AddWithValue("@qty", Convert.ToInt16(UPQty.Value));
-                    cm.Parameters.AddWithValue("@price", txtPrice.Text);
-                    cm.Parameters.AddWithValue("@total", txtTotal.Text);
+                    cm.Parameters.AddWithValue("@pid", Convert.ToInt32(txtProdId.Text));
+                    cm.Parameters.AddWithValue("@cid", Convert.ToInt32(txtCid.Text));
+                    cm.Parameters.AddWithValue("@qty", Convert.ToInt32(UPQty.Value));
+                    cm.Parameters.AddWithValue("@price", Convert.ToInt32(txtPrice.Text));
+                    cm.Parameters.AddWithValue("@total", Convert.ToInt32(txtTotal.Text));
                     con.Open();
                     cm.ExecuteNonQuery();
                     con.Close();
-                    MessageBox.Show("User has been successfully saved.");
+                    MessageBox.Show("Order has been successfully inserted.");
+                   
+                    cm = new SqlCommand("UPDATE tbProduct SET pqty=(pqty-@pqty) WHERE pid LIKE '" + txtProdId.Text + "' ", con);
+                    cm.Parameters.AddWithValue("@pqty", Convert.ToInt16(UPQty.Value));
+                    con.Open();
+                    cm.ExecuteNonQuery();
+                    con.Close();
                     Clear();
+                    LoadProducts();
                 }
             }
 
@@ -182,8 +194,21 @@ namespace InventoryManagementSystem
         private void btnClear_Click(object sender, EventArgs e)
         {
             Clear();
-            btnInsert.Enabled = true;
-            btnUpdate.Enabled = false; 
         }
+
+        public void GetQty()
+        {
+            cm = new SqlCommand("SELECT pqty FROM tbProduct WHERE pid='" + txtProdId.Text + "'", con);
+            con.Open();
+            dr = cm.ExecuteReader();
+
+            while (dr.Read())
+            {
+                qty = Convert.ToInt32((dr[0].ToString()));
+            }
+            dr.Close();
+            con.Close();
+        }
+
     }
 }
